@@ -62,55 +62,83 @@ watch(
 const directories = {
 	about: {
 		content:
-			'Name: Ata Parvin\nRole: Full Stack Developer\nStatus: Looking for root access...',
+			"NAME: Ata Parvin\nROLE: Software Developer\nLOCATION: Toronto, ON\n\nSUMMARY:\nOver 5 years of experience in web and application development. Strong background in JS/TS.\nSolid understanding of Vanilla JavaScript and how the language works under the hood.\nBachelor's degree in Computer Engineering from University of Tabriz.",
 		subdirs: {},
+		files: {
+			'qualifications.txt':
+				'• Strong background in JS/TS (Front & Back)\n• Frameworks: React, Vue, Next.js, Nuxt.js\n• Integrated AI/LLM for enhanced automation & UX\n• Experience in startups and fast-paced environments',
+			'education.txt':
+				'Bachelor of Computer Engineering (2019 - 2023)\nUniversity of Tabriz\nFocus: Data Structures, Algorithms, OOP, Design Patterns, and AI.',
+		},
+	},
+	skills: {
+		content: 'Type "ls" to see skill categories.',
+		subdirs: {
+			languages: {
+				content: 'JavaScript, TypeScript, Python (Inter), Java (Inter)',
+				subdirs: {},
+				files: {},
+			},
+			frontend: {
+				content:
+					'React.js, Vue.js, Next.js, Nuxt.js, Tailwind, Sass, JQuery, Three.js, GSAP',
+				subdirs: {},
+				files: {},
+			},
+			backend: {
+				content:
+					'Node.js, Express.js, Nest.js, MySQL, MongoDB, GraphQL, Web Sockets',
+				subdirs: {},
+				files: {},
+			},
+			devops: { content: 'AWS, Docker, Git, CI/CD', subdirs: {}, files: {} },
+		},
 		files: {},
 	},
 	experience: {
-		content: '',
+		content: 'Use "cd" to explore specific roles.',
 		subdirs: {
 			'Critical Mass': {
 				content:
-					'Current company: Critical Mass\nRole: Full Stack Developer\nJoined: 2023',
-				subdirs: {
-					project1: {
-						content:
-							'E-commerce Platform\nTech: Vue.js, Node.js\nDescription: Built a scalable e-commerce site.',
-						subdirs: {},
-						files: {},
-					},
-					project2: {
-						content:
-							'Dashboard App\nTech: React, Express\nDescription: Real-time analytics dashboard.',
-						subdirs: {},
-						files: {},
-					},
-				},
+					'ROLE: Software Developer (Sep 2025 – Present)\nCLIENTS: BMW USA, BNY',
+				subdirs: {},
 				files: {
-					'responsibilities.txt':
-						'- Developed full-stack web applications\n- Integrated APIs and databases\n- Collaborated with design and product teams\n- Optimized performance and user experience',
+					'projects.txt':
+						'• BMW USA: Currently working on BMW USA, implementing new features and maintaining the platform.\n• BNY: Contributed to Bank of New York project delivering accessible, performant UIs with React and GSAP.',
+					'achievements.txt':
+						'• Built custom page builder (reduced dev time by 40%)\n• Applied WCAG accessibility standards\n• Optimized performance reducing load times and improving scalability',
 				},
 			},
-			'Previous Company': {
-				content:
-					'Previous company: XYZ Corp\nRole: Junior Developer\nDuration: 2020-2023',
+			'Hovco Studio': {
+				content: 'ROLE: Full Stack Developer (Feb 2023 – Aug 2025)',
 				subdirs: {},
 				files: {
 					'achievements.txt':
-						'- Built initial prototypes\n- Learned modern web technologies',
+						'• Served 10K+ monthly active users\n• Improved data transfer speed by ~200ms using GraphQL/WebSockets\n• Boosted SEO rankings by 40% using SSR/SSG (Next.js)',
+				},
+			},
+			Freelance: {
+				content: 'ROLE: Web Developer (Jun 2020 – Jan 2023)',
+				subdirs: {},
+				files: {
+					'lms_project.txt':
+						'Built LMS with Nuxt.js and Adonis; elevated satisfaction by 70%.',
+					'wordpress.txt':
+						'Custom theme/plugin development with React/Vue integration.',
 				},
 			},
 		},
 		files: {},
 	},
 	contact: {
-		content:
-			'Email: hello@ata.parvin\nGitHub: github.com/atapavin\nLinkedIn: linkedin.com/in/atapavin',
+		content: 'Feel free to reach out!',
 		subdirs: {},
-		files: {},
+		files: {
+			'info.txt':
+				'Email: ataparvinghods@gmail.com\nPhone: 437-473-4859\nLinkedIn: linkedin.com/in/atapavin\nGithub: github.com/atapavin',
+		},
 	},
 };
-
 // Helper function to get current directory object
 const getCurrentDir = () => {
 	let current = { subdirs: directories, files: {} };
