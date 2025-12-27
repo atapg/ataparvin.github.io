@@ -39,6 +39,23 @@ const history = ref([]);
 const inputField = ref(null);
 const cursorOffset = ref(0);
 
+// Load history from localStorage on mount
+onMounted(() => {
+	const saved = localStorage.getItem('cmdHistory');
+	if (saved) {
+		history.value = JSON.parse(saved);
+	}
+});
+
+// Save history to localStorage whenever it changes
+watch(
+	history,
+	(newHistory) => {
+		localStorage.setItem('cmdHistory', JSON.stringify(newHistory));
+	},
+	{ deep: true }
+);
+
 // Directory Data
 const directories = [
 	{
@@ -75,9 +92,8 @@ const handleCommand = () => {
 			output = directories.map((d) => d.name).join('    ');
 		} else {
 			const currentDirName = path.value.replace('~/', '');
-			const dir = directories.find((d) => d.name === currentDirName);
-			if (dir) {
-				output = dir.content;
+			if (currentDirName) {
+				output = currentDirName;
 			} else {
 				output = '';
 			}
@@ -97,14 +113,27 @@ const handleCommand = () => {
 		}
 	} else if (cmd === 'cat') {
 		const currentDirName = path.value.replace('~/', '');
-		const dir = directories.find((d) => d.name === currentDirName);
-		if (dir) {
-			output = dir.content;
+		if (!currentDirName) {
+			output = 'cat: No file in current directory.';
 		} else {
-			output = 'cat: No content in current directory.';
+			if (!target || target === currentDirName) {
+				const dir = directories.find((d) => d.name === currentDirName);
+				if (dir) {
+					output = dir.content;
+				} else {
+					output = 'cat: File not found.';
+				}
+			} else {
+				output = `cat: ${target}: No such file`;
+			}
 		}
+	} else if (cmd === 'pwd') {
+		output = path.value;
+	} else if (cmd === 'echo') {
+		output = args.slice(1).join(' ');
 	} else if (cmd === 'help') {
-		output = 'Commands: ls, cd [dir], cat, clear, help';
+		output =
+			'Commands: ls, cd [dir], cat [file], pwd, echo [text], clear, help';
 	} else if (cmd === 'clear') {
 		history.value = [];
 		value.value = '';
