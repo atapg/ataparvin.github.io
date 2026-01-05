@@ -176,63 +176,78 @@ const handleCommand = () => {
 	const currentPrompt = `${base.value}:${path.value}#`;
 
 	// COMMAND LOGIC
-	if (cmd === 'ls') {
-		const currentDir = getCurrentDir();
-		if (currentDir) {
-			const subdirNames = Object.keys(currentDir.subdirs);
-			const fileNames = Object.keys(currentDir.files);
-			output = [...subdirNames, ...fileNames].join('    ');
-		} else {
-			output = 'ls: No such directory';
-		}
-	} else if (cmd === 'cd') {
-		if (!target || target === '~' || target === '/') {
-			path.value = '~';
-		} else if (target === '..') {
-			if (path.value === '~') {
-				// stay
-			} else {
-				const parts = path.value.split('/');
-				parts.pop();
-				path.value = parts.length > 1 ? parts.join('/') : '~';
-			}
-		} else {
+	switch (cmd) {
+		case 'ls': {
 			const currentDir = getCurrentDir();
-			if (currentDir && currentDir.subdirs[target]) {
-				path.value =
-					path.value === '~' ? `~/${target}` : `${path.value}/${target}`;
+			if (currentDir) {
+				const subdirNames = Object.keys(currentDir.subdirs);
+				const fileNames = Object.keys(currentDir.files);
+				output = [...subdirNames, ...fileNames].join('    ');
 			} else {
-				output = `bash: cd: ${target}: No such directory`;
+				output = 'ls: No such directory';
 			}
+			break;
 		}
-	} else if (cmd === 'cat') {
-		const currentDir = getCurrentDir();
-		if (!target) {
-			if (currentDir && currentDir.content) {
-				output = currentDir.content;
+		case 'cd': {
+			if (!target || target === '~' || target === '/') {
+				path.value = '~';
+			} else if (target === '..') {
+				if (path.value === '~') {
+					// stay
+				} else {
+					const parts = path.value.split('/');
+					parts.pop();
+					path.value = parts.length > 1 ? parts.join('/') : '~';
+				}
 			} else {
-				output = 'cat: No content in current directory.';
+				const currentDir = getCurrentDir();
+				if (currentDir && currentDir.subdirs[target]) {
+					path.value =
+						path.value === '~' ? `~/${target}` : `${path.value}/${target}`;
+				} else {
+					output = `bash: cd: ${target}: No such directory`;
+				}
 			}
-		} else {
-			if (currentDir && currentDir.files[target]) {
-				output = currentDir.files[target];
-			} else {
-				output = `cat: ${target}: No such file`;
-			}
+			break;
 		}
-	} else if (cmd === 'pwd') {
-		output = path.value;
-	} else if (cmd === 'echo') {
-		output = args.slice(1).join(' ');
-	} else if (cmd === 'help') {
-		output =
-			'Commands: ls, cd [dir], cat [file], pwd, echo [text], clear, help';
-	} else if (cmd === 'clear') {
-		history.value = [];
-		value.value = '';
-		return;
-	} else if (trimmed !== '') {
-		output = `bash: ${cmd}: command not found`;
+		case 'cat': {
+			const currentDir = getCurrentDir();
+			if (!target) {
+				if (currentDir && currentDir.content) {
+					output = currentDir.content;
+				} else {
+					output = 'cat: No content in current directory.';
+				}
+			} else {
+				if (currentDir && currentDir.files[target]) {
+					output = currentDir.files[target];
+				} else {
+					output = `cat: ${target}: No such file`;
+				}
+			}
+			break;
+		}
+		case 'pwd':
+			output = path.value;
+			break;
+		case 'echo':
+			output = args.slice(1).join(' ');
+			break;
+		case 'exit':
+			window.close();
+			break;
+		case 'help':
+			output =
+				'Commands: ls, cd [dir], cat [file], pwd, echo [text], clear, exit, help';
+			break;
+		case 'clear':
+			history.value = [];
+			value.value = '';
+			return;
+		default:
+			if (trimmed !== '') {
+				output = `bash: ${cmd}: command not found`;
+			}
 	}
 
 	// Record History
