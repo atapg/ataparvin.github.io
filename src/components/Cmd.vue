@@ -234,7 +234,7 @@ const handleCommand = () => {
 			output = args.slice(1).join(' ');
 			break;
 		case 'exit':
-			window.close();
+			window.open('', '_self').close();
 			break;
 		case 'help':
 			output =
